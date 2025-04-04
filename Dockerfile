@@ -22,6 +22,9 @@ RUN composer dump-autoload --optimize
 RUN php artisan key:generate
 RUN php artisan migrate
 
+RUN npm install
+RUN npm run build
+
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage
@@ -35,4 +38,5 @@ RUN ["chmod", "755", "docker-entrypoint.sh"]
 RUN ["chmod", "+x", "docker-entrypoint.sh"]
 
 # Start Laravel server
-ENTRYPOINT ["./docker-entrypoint.sh"]
+# ENTRYPOINT ["./docker-entrypoint.sh"]
+CMD ["php", "artisan", "serve", "--port=80", "--host=0.0.0.0"]

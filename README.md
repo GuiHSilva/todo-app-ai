@@ -21,8 +21,8 @@ Execute o projeto com Docker:
 
 ```bash
 chmod +x docker-entrypoint.sh
-docker build -t todo-app .
-docker run -v ${PWD}:/var/www/html --rm -p 8000:80 todo-app
+docker build -t todo-app-ai .
+docker run --rm -p 8000:80 todo-app-ai
 ```
 
 Acesse a aplicação em: http://localhost:8000
