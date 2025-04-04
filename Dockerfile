@@ -38,5 +38,4 @@ RUN ["chmod", "755", "docker-entrypoint.sh"]
 RUN ["chmod", "+x", "docker-entrypoint.sh"]
 
 # Start Laravel server
-# ENTRYPOINT ["./docker-entrypoint.sh"]
-CMD ["php", "artisan", "serve", "--port=80", "--host=0.0.0.0"]
+ENTRYPOINT ["./docker-entrypoint.sh"]
