@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/vendor
+    ports:
+      - "80:80"
+    environment:
+      - DB_HOST=db
+      - REDIS_HOST=redis
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+volumes:
+  db_data:
