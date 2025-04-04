@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Todo;
 use Illuminate\Http\Request;
+use App\Services\GenerateTodoSuggestions;
 
 class TodoController extends Controller
 {
@@ -79,5 +80,30 @@ class TodoController extends Controller
     {
         $todo->delete();
         return response()->json(null, 204);
+    }
+
+    /**
+     * Get AI suggestions based on user prompt.
+     */
+    public function aiSuggest(Request $request, GenerateTodoSuggestions $suggestionService)
+    {
+        // Validação básica
+        $validated = $request->validate([
+            'prompt' => 'required|string|max:500',
+        ]);
+
+        try {
+            // Obter sugestões usando o serviço
+            $suggestions = $suggestionService->getSuggestions($validated['prompt']);
+
+            return response()->json([
+                'suggestions' => $suggestions
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao processar a solicitação de IA',
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 }
